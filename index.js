@@ -11,6 +11,7 @@ const server = http.createServer((req, res) => {
     const id = url.parse(req.url, true).query.id;
 
 
+
     // PRODUCTS OVERVIEW
     if (pathName === '/products' || pathName === '/') {
         res.writeHead(200, { 'Content-type': 'text/html'});
@@ -38,6 +39,15 @@ const server = http.createServer((req, res) => {
             const laptop = laptopData[id];
             const output = replaceTemplate(data, laptop);
             res.end(output);
+        });
+    }
+
+    // IMAGES 
+    else if ((/\.(jpg|jpeg|png|gif)$/i).test(pathName)) {
+        fs.readFile(`${__dirname}/data/img${pathName}`, (err, data) => {
+            res.writeHead(200, { 'Content-type': 'image/jpg'});
+            res.end(data);
+
         });
     }
 
